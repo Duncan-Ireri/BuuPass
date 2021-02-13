@@ -26,7 +26,7 @@ SECRET_KEY = '^&gnrss5-y$(alqslf#qv7)rb7c0&psr@#)weox!y7ct=n#@4+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://buupassdemo.herokuapp.com/', 'http://127.0.0.1:8000/']
+ALLOWED_HOSTS = ['buupassdemo.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
