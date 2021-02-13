@@ -59,7 +59,7 @@ class AuthUserLoginView(APIView):
                 'refresh': serializer.data['refresh'],
                 'authenticatedUser': {
                     'email': serializer.data['email'],
-                    'role': serializer.data['role']
+                    'roles': serializer.data['roles']
                 }
             }
 
@@ -73,7 +73,7 @@ class UserListView(APIView):
     @swagger_auto_schema(responses={200: userserializer.UserSerializer(many=True)})
     def get(self, request):
         user = request.user
-        if user.role != 'admin' or user.role != 'supadmin':
+        if user.roles != 'admin' or user.roles != 'supadmin':
             response = {
                 'success': False,
                 'status_code': status.HTTP_403_FORBIDDEN,

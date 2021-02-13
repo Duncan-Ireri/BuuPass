@@ -4,7 +4,25 @@ from django.db.models.base import Model
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from tickets.models import Tickets
+from django.contrib.auth.base_user import BaseUserManager
 # Create your models here.
+
+class CustomUserManager(BaseUserManager):
+    """
+    Custom user model where the email address is the unique identifier
+    and has an is_admin field to allow access to the admin app 
+    """
+    def create_user(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError(_("The email must be set"))
+        if not password:
+            raise ValueError(_("The password must be set"))
+        email = self.normalize_email(email)
+
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
 
 # PERMISSIONS CLASS
 class AuthPermissions (models.Model):
@@ -65,6 +83,7 @@ class User(AbstractUser):
     )
 
     email = models.EmailField(_('Email Address'), unique=True, blank=False)
+    username = models.CharField(_("username"), max_length=50)
     first_name = models.CharField(_("First Name"), max_length=50)
     last_name = models.CharField(_("First Name"), max_length=50)
     supervisor = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="supervisor")
@@ -74,11 +93,13 @@ class User(AbstractUser):
     phone_number = models.CharField(_("Phone Number"), max_length=15, unique=True, null=False) # USE THIS TO SEND TICKET VERIFICATIONS USING SHORTCODE OR 2fACTOR AUTH FOR PAYMENTS
     roles = models.CharField(choices=ROLE, max_length=50, blank=True, null=True, default='member')
 
-    USERNAME_FIELD = 'email' # SWITCH USERNAME TO EMAIL
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
 
     def getFullName(self):
-        return self.first_name + self.last_name
+        return self.first_name + " " + self.last_name
 
     def __str__(self) -> str:
         return self.getFullName()
