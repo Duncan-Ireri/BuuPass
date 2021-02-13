@@ -73,7 +73,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         fields = (
             'email',
             'password',
-            'image',
+            # 'image',   # NOT PLAYING NICE WITH HEROKU
             'phone_number',
             'username'
         )
