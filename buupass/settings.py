@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     # 3rd PARTY APPS
     'rest_framework',
     'rest_framework.authtoken',
-    'dj_rest_auth',
+    # 'dj_rest_auth', # TODO: DECIDED NOT TO USE THIS
     'drf_yasg',
 
     # CUSTOM APPS
