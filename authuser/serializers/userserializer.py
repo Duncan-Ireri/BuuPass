@@ -71,11 +71,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = (
+            'first_name',
+            'last_name',
+            'phone_number',
+            'username',
             'email',
             'password',
             # 'image',   # NOT PLAYING NICE WITH HEROKU
-            'phone_number',
-            'username'
+
         )
 
     def create(self, validated_data):
@@ -86,8 +89,14 @@ class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(max_length=128, write_only=True)
     access = serializers.CharField(read_only=True)
-    refresh = serializers.CharField(read_only=True)
     roles = serializers.CharField(read_only=True)
+    refresh = serializers.CharField(read_only=True)
+
+    def create(self, validated_date):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
 
     def validate(self, data):
         email = data['email']

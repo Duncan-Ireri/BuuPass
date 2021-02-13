@@ -24,6 +24,21 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
+    def create_superuser(self, email, password=None):
+        if not email:
+            raise ValueError("User must have an email")
+        if not password:
+            raise ValueError("User must have a password")
+
+        user = self.model(
+            email=self.normalize_email(email)
+        )
+        user.set_password(password)  # change password to hash
+        user.is_admin = True
+        user.is_staff = True
+        user.save(using=self._db)
+        return user
+
 # PERMISSIONS CLASS
 class AuthPermissions (models.Model):
     """
@@ -85,7 +100,7 @@ class User(AbstractUser):
     email = models.EmailField(_('Email Address'), unique=True, blank=False)
     username = models.CharField(_("username"), max_length=50)
     first_name = models.CharField(_("First Name"), max_length=50)
-    last_name = models.CharField(_("First Name"), max_length=50)
+    last_name = models.CharField(_("Last Name"), max_length=50)
     supervisor = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="supervisor")
     # roles = models.ManyToManyField("Role", verbose_name="user_role", blank=True) TO BE USED WITH THE ABOVE PREFILLED ROLES MODEL
     image = models.ImageField(upload_to="static/%Y/%m/%D", default="images/default.svg",
