@@ -71,6 +71,14 @@ class AuthUserLoginView(APIView):
         serializer = self.serializer_class(data=request.data)
         valid = serializer.is_valid(raise_exception=True)
 
+        email = serializer.data['email']
+
+        print(email)
+
+        user = User.objects.filter(email=email).values()[0]
+
+        print(user)
+
         if valid:
             status_code = status.HTTP_200_OK
 
@@ -80,9 +88,9 @@ class AuthUserLoginView(APIView):
                 'message': 'User logged in successfully',
                 'access': serializer.data['access'],
                 'refresh': serializer.data['refresh'],
+                'email': serializer.data['email'],
                 'authenticatedUser': {
-                    'email': serializer.data['email'],
-                    'roles': serializer.data['roles']
+                    'data': user
                 }
             }
 

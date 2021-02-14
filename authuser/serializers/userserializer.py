@@ -123,3 +123,8 @@ class UserLoginSerializer(serializers.Serializer):
             return validation
         except User.DoesNotExist:
             raise serializers.ValidationError("Invalid login credentials")
+
+# class AuthUserLoginSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.User
+#         fields = ('email', 'password',)
