@@ -105,8 +105,8 @@ class User(AbstractUser):
     # roles = models.ManyToManyField("Role", verbose_name="user_role", blank=True) TO BE USED WITH THE ABOVE PREFILLED ROLES MODEL
     image = models.ImageField(upload_to="static/%Y/%m/%D", default="images/default.svg",
                               max_length=100, null=True, blank=True) # THIs SHOULD PROBABLY BE OFFLOADED TO A THIRD PARTY SITE LIKE CLOUDINARY OR DROPBOX
-    phone_number = models.CharField(_("Phone Number"), max_length=15, unique=True, null=False) # USE THIS TO SEND TICKET VERIFICATIONS USING SHORTCODE OR 2fACTOR AUTH FOR PAYMENTS
-    roles = models.CharField(choices=ROLE, max_length=50, blank=True, null=True, default='member')
+    phone_number = models.CharField(_("Phone Number"), max_length=15) # USE THIS TO SEND TICKET VERIFICATIONS USING SHORTCODE OR 2fACTOR AUTH FOR PAYMENTS
+    roles = models.CharField(choices=ROLE, max_length=50, blank=True, default='member')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

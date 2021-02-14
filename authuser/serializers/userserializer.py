@@ -4,6 +4,8 @@ import re
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, update_last_login
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from django.db import transaction
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -123,3 +125,30 @@ class UserLoginSerializer(serializers.Serializer):
             return validation
         except User.DoesNotExist:
             raise serializers.ValidationError("Invalid login credentials")
+
+class AuthUserRegisterSerializer(RegisterSerializer):
+    first_name = serializers.CharField(max_length=30)
+    last_name = serializers.CharField(max_length=30)
+    # phone_number = serializers.CharField(max_length=30)
+
+    # Define transaction.atomic to rollback the save operation in case of error
+    @transaction.atomic
+    def save(self, request):
+        user = super().save(request)
+        user.first_name = self.data.get('first_name')
+        user.last_name = self.data.get('last_name')
+        # user.phone_number = self.data.get('phone_number')
+        user.save()
+        return user
+
+class AuthUserDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.User
+        fields = (
+            'email',
+            # 'phone_number',
+            'first_name',
+            'last_name',
+        )
+        read_only_fields = ('email', 'first_name', 'last_name')

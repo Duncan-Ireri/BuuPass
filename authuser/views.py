@@ -88,11 +88,9 @@ class AuthUserLoginView(APIView):
 
             return Response(response, status=status_code)
 
-
 class UserListView(APIView):
     serializer_class = userserializer.UserSerializer
     permission_classes = (IsAuthenticated,)
-
 
     def get(self, request):
         user = request.user
