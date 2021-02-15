@@ -40,6 +40,7 @@ urlpatterns = [
     
     # CREATE API URL - FOR VERSIONING THE API
     path('api/v1/', include('api.urls')),
+    path('', include('docs.urls')),
 
     # SWAGGER
     path('^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

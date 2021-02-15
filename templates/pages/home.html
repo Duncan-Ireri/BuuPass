@@ -1,0 +1,81 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block title %}BuuPss :: Home{% endblock title %}
+
+{% block content %}
+<section class="py-5 header">
+    <div class="container py-4">
+        <header class="text-center mb-5 pb-5 text-white">
+            <h1 class="display-4 text">BUUPASS</h1>
+            
+        </header>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Tabs nav -->
+                <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link mb-3 p-3 shadow active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i class="fa fa-user-circle-o mr-2"></i>
+                        <span class="font-weight-bold small text-uppercase">USERS LIST</span></a>
+
+                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                        <i class="fa fa-calendar-minus-o mr-2"></i>
+                        <span class="font-weight-bold small text-uppercase">REGISTER USER</span></a>
+
+                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+                        <i class="fa fa-star mr-2"></i>
+                        <span class="font-weight-bold small text-uppercase">LOGIN USER</span></a>
+
+                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                        <i class="fa fa-check mr-2"></i>
+                        <span class="font-weight-bold small text-uppercase">ADMIN AND SWAGGER</span></a>
+                    </div>
+            </div>
+
+
+            <div class="col-md-9">
+                <!-- Tabs content -->
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade shadow rounded bg-white show active p-5" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <h4 class="font-italic mb-4">USERS LIST</h4>
+                        <p class="font-italic text-muted mb-2">This link sends you to the users end point which is accesses by roles defined in the models.py of <code>authuser.models.py</code>
+                        <br>
+                        <hr>
+                        <a type="button" class="btn btn-dark" href="https://buupassdemo.herokuapp.com/api/v1/users/">List All Users End Point</a></p>
+                    </div>
+                    
+                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                        <h4 class="font-italic mb-4">REGISTER USER</h4>
+                        <p class="font-italic text-muted mb-2">Register a user using the custom user model. The serializer is made to return a user object with particular fields like email and password. Also a custom base manager to help with user creation using the new fields defined in the users model. <code>authuser.serializer.userserializer.py</code></p>
+                        <p class="font-italic text-muted mb-2">The default role is member whenever a new user is created.</p>
+                        <br>
+                        <hr>
+                        <a type="button" class="btn btn-dark" href="https://buupassdemo.herokuapp.com/api/v1/users/register/">Register User End Point</a></p>
+                    </div>
+                    
+                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                        <h4 class="font-italic mb-4">LOGIN USER</h4>
+                        <p class="font-italic text-muted mb-2">Login in the user generates a token, this can be switched to JWT using the <code>dj_auth_rest</code> and simple_jwt middleware.</p>
+                        <br>
+                        <hr>
+                        <a type="button" class="btn btn-dark" href="https://buupassdemo.herokuapp.com/api/v1/users/dj-rest-auth/login/">Login A User End Point</a></p>
+                    </div>
+                    
+                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                        <h4 class="font-italic mb-4">ADMIN AND SWAGGER</h4>
+                        <p class="font-italic text-muted mb-2">Admin credentials are <span class="badge badge-warning">'collins@test'</span>  and <span class="badge badge-warning">'buupass'</span>  you can use this to access the admin dashboard to add users and switch roles. Swagger is used to document the Rest API.</p>
+                        <br>
+                        <hr>
+                        <a type="button" class="btn btn-dark" href="https://buupassdemo.herokuapp.com/swagger">Swagger Documentation</a></p>
+                        <br>
+                        <hr>
+                        <a type="button" class="btn btn-dark" href="https://buupassdemo.herokuapp.com/aadmin">Admin Dashboard</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
