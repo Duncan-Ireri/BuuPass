@@ -50,7 +50,9 @@ INSTALLED_APPS = [
     # 3rd PARTY APPS
     'rest_framework',
     'rest_framework.authtoken',
-    # 'dj_rest_auth', # TODO: DECIDED NOT TO USE THIS
+    'dj_rest_auth', # TODO: USE THIS
+    # 'rest_auth', # TODO: DEPRACATED
+
     'drf_yasg',
 
     # CUSTOM APPS
@@ -63,6 +65,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'authuser.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # CORS HEADERS FOR FORNTEND
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,32 +73,31 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware', # DJANGO SOCIAL LOGIN MIDDLEWARE
 ]
 
 ROOT_URLCONF = 'buupass.urls'
 
 # REST framework settings
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated'
-    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # OAuth2, JWT
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny', # Up to you to decide, depends on your project
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100
 }
 
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'authuser.serializers.userserializer.AuthUserRegisterSerializer',
-}
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     'REGISTER_SERIALIZER': 'authuser.serializers.userserializer.UserCreateSerializer',
+# }
 
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'authuser.serializers.userserializer.AuthUserDetailsSerializer',
-}
+# REST_AUTH_SERIALIZERS = {
+#     'USER_DETAILS_SERIALIZER': 'authuser.serializers.userserializer.AuthUserDetailsSerializer',
+# }
 
 # Configure the JWT settings
 SIMPLE_JWT = {
@@ -106,7 +108,7 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
-    'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
@@ -124,6 +126,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # THIRD PARTY
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },

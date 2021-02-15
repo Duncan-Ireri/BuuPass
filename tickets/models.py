@@ -6,7 +6,9 @@ import datetime
 # Create your models here.
 class Tickets(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("ticketed_user"), on_delete=models.CASCADE)
+    ticket_route = models.CharField(max_length=32, unique=True, verbose_name="route") # TODO: CHANGE TO SELECT FIELD OR FOREIGN KEY FOR ROUTES
     ticket_number = models.CharField(max_length=32, unique=True, verbose_name="ticket_number")
+    ticket_approved = models.BooleanField(default=False)
     ticket_date = models.DateField(_("Date"), default=datetime.date.today)
 
     def __str__(self):

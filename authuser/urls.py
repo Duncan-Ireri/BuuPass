@@ -5,10 +5,10 @@ from . import views
 
 urlpatterns = [
     path('', views.UserListView.as_view(), name='users'),
-    # path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),
-    # path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    # path('register/', views.AuthUserCreateView.as_view(), name='register'),
-    # path('login/', views.AuthUserLoginView.as_view(), name='login'),
+    path('register/', views.UserCreateAPIView.as_view(), name='user-register'),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+
+
+    path('create_ticket/', views.CreateTicket.as_view(), name='create-ticket'),
+    path('validate_ticket/', views.UpdateTicketValidation.as_view(), name='ticket-validation'),
 ]
